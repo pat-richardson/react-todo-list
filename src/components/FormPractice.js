@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Button from './Button';
 
 class FormPractice extends Component {
   constructor(props) {
@@ -22,7 +23,12 @@ class FormPractice extends Component {
     return (
       <div>
         <h1>Hello {username}</h1>
-        <Form username={username} onSubmit={this.onSubmit} setUsername={this.setUsername}></Form>
+        <Form onSubmit={this.onSubmit}>
+          <InputField username={username} setUsername={this.setUsername}>
+            Name:
+          </InputField>
+          <Button type="submit">Send</Button>
+        </Form>
       </div>
     );
   }
@@ -30,7 +36,7 @@ class FormPractice extends Component {
 
 class Form extends Component {
   render() {
-    const { username, onSubmit, setUsername } = this.props;
+    const { onSubmit, children } = this.props;
 
     return (
       <form
@@ -39,12 +45,21 @@ class Form extends Component {
           event.preventDefault();
         }}
       >
-        <label>
-          Name:
-          <input type="text" value={username} onChange={event => setUsername(event.target.value)} />
-        </label>
-        <button type="submit">Send</button>
+        {children}
       </form>
+    );
+  }
+}
+
+class InputField extends Component {
+  render() {
+    const { children, username, setUsername } = this.props;
+
+    return (
+      <label>
+        {children}
+        <input type="text" value={username} onChange={event => setUsername(event.target.value)} />
+      </label>
     );
   }
 }
